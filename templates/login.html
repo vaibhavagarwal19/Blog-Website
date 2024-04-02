@@ -20,12 +20,12 @@
 	<div class="col-md-4 col-sm-12 "  style="background-color: #f4f2f3; ">
 			
 		<form method="post" action="">
-			<div ><h4 class="loglabel text-center">Login Here</h4></div>
+			<div ><h4 class="">Login Here</h4></div>
 			{% csrf_token %}
 			{{ form.as_p }}
-			<div ><button type="submit" class="btn login-button" style="width:100%;    margin-bottom: 5%;">Login</button></div>
+			<div ><button type="submit" class="" style="width:100%;    margin-bottom: 5%;">Login</button></div>
 			<div class="text-center" style="margin-top:5%; margin-bottom:5%;">
-				<a href="{% url 'signup' %}" class="signupbtn">Sign Up</a>
+				<a href="{% url 'signup' %}" class="">Sign Up</a>
 			</div>
 			
 		</form>
