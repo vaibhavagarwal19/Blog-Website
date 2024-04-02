@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<title>My_Blog</title>
+</head>
+<body>
+
+   <div class="container">
+   <br>
+   
+   <div class="row">
+      <div class="col-md-3 col-sm-12"></div>
+      <div class="col-md-6 col-sm-12">
+         <h2>My Blogs
+           
+         </h2>
+         <hr>
+      </div>
+      <div class="col-md-3 col-sm-12"></div>
+   </div>
+   <div class="row">
+      <div class="col-md-3 col-sm-12"></div>
+      <div class="col-md-6 col-sm-12">
+         <div>
+            {% if posts %}
+            <div class="card" style="padding: 16px 16px;">
+               <a href="">
+                  <h2> {{posts.title|title}}</h2>
+               </a>
+               <div>
+                  <span>publish date: {{posts.date_created}}</span>
+                  <span>by author: {{posts.author}}</span>
+               </div>
+               </br>
+               <small>{{posts.body}}</small>
+            </div>
+            <br>
+            {% endif %}
+         </div>
+      </div>
+      <div class="col-md-3 col-sm-12"></div>
+   </div>
+   <div class="row">
+      <div class="col-md-3 col-sm-12"></div>
+      <div class="col-md-6 col-sm-12">
+        <a  type="button" class="" data-toggle="modal" data-target="#exampleModal">
+            Share this post by email
+        </a>
+        </div>
+      <div class="col-md-3 col-sm-12"></div>
+   </div>
+   <div class="row">
+      <div class="col-md-3 col-sm-12"></div>
+      <div class="col-md-6 col-sm-12">
+         {% if comments %}
+         <h4>{{comments.count}} Commets</h4>
+         <p>There are number commnets</p>
+                {% for comment in comments %}
+                    <div class="card"  style="padding: 10px 10px;">
+                    <span>Comment {{forloop.counter}} by author: {{comment.author}} {{comment.created_date}} </span>
+                    <h4>{{comment.body}}</h4>
+                    </div>
+                    <br>
+                {% endfor %}
+            {% else %}
+                <h4>0 Commets</h4>
+            {% endif %}
+            </div>
+            <div class="col-md-3 col-sm-12"></div>
+         </div>
+        </div>
+         <!-- for comment -->
+    <div class="row">
+        <div class="col-md-3 col-sm-12"></div>
+        <div class="col-md-6 col-sm-12">
+            <h3>Add a new commet</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Name</label>
+                    <input type="text" name ="name" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" name ="email" id="emal" aria-describedby="emailHelp" required>                
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Body</label>
+                    <textarea class="form-control" name="body" id="body" rows="3" required></textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <div class="col-md-3 col-sm-12"></div>
+    </div>  
+      <br>
+</div>
+
+<!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Share post by email</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'share_post' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name ="url" value="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{ request.path }}" required>
+            <div class="modal-body">
+            
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Name</label>
+                        <input type="text" name ="name" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email</label>
+                        <input type="email" class="form-control" name ="email" id="emal" aria-describedby="emailHelp" required>                
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">To</label>
+                        <input type="text" name="to" class="form-control" id="to" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Comments</label>
+                        <textarea class="form-control" name="comments" id="comments" rows="3" required></textarea>
+                    </div>
+                    <br>
+                
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button  type="submit" class="btn btn-primary">SEND E-MAIL</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

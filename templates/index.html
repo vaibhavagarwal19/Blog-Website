@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<title>Lalit Project</title>
+
+
+</head>
+
+<body>
+<div id="overlay">
+  <div class="cv-spinner">
+      <span class="spinner"></span>
+  </div>
+</div>
+  <div class="container">
+    <br>
+    <div class="row">
+     
+      <div class="col-md-3 col-sm-12"></div>
+      <div class="col-md-6 col-sm-12">
+       <h2>My Blogs</h2>
+       <hr>
+      </div>
+      <div class="col-md-3 col-sm-12"></div>
+    </div>
+    
+  
+    <div class="row">
+      <div class="col-md-3 col-sm-12"></div>
+      <div class="col-md-6 col-sm-12">
+        <div>
+         {% if posts %}
+            {% for ps in posts %}
+              <div class="card" style="padding: 16px 16px;">
+                <a href="{% url 'view_post' ps.id %}"><h2> {{ps.title|title}}</h2></a>
+                <div>
+                  <span>publish date: {{ps.date_created}}</span>
+                  <span>by author: {{ps.author}}</span>
+                </div>
+                <h3>{{ps.body |truncatechars:20 }}</h3>
+              </div>
+              <br>
+            {% endfor %}
+         {% endif %}
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-12"></div>
+    </div>
+   
+    <br>
+
+  </div>
+<div class="row">
+  <div class="col-md-3 col-sm-12"></div>
+  <div class="col-md-6 col-sm-12">
+{% if posts.has_other_pages %}
+  <ul class="pagination" style="float: right;">
+    {% if posts.has_previous %}
+      <li><a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in posts.paginator.page_range %}
+      {% if posts.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if posts.has_next %}
+      <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+</div>
+<div class="col-md-3 col-sm-12"></div>
+</div>
+{% endblock %}
+
+
